@@ -5,11 +5,10 @@ source "https://rubygems.org"
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
 gem 'dotenv'
+gem 'net-ssh'
+gem 'net-scp'
 gem 'nokogiri'
-gem 'pg'
-gem 'sequel'
 
 group :development, :test do
   gem 'byebug'
-  gem 'rspec'
 end
