@@ -1,4 +1,4 @@
-csvUrl = "http://roovoweb.com/data/climber_count.csv"
+csvUrl = "https://roovoweb.com/data/climber_count.csv"
 
 d3.csv(csvUrl, function(d) {
   return {
