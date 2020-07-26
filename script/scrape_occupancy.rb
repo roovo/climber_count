@@ -19,6 +19,7 @@ upload_ip   = ENV.fetch("UPLOAD_IP")
 upload_port = ENV.fetch("UPLOAD_PORT")
 upload_path = ENV.fetch("UPLOAD_PATH")
 upload_user = ENV.fetch("UPLOAD_USER")
+key_path    = ENV.fetch("KEY_PATH")
 
 logger            = Logger.new(STDOUT)
 logger.level      = Logger::INFO
@@ -41,7 +42,7 @@ end
 
 logger.info "Uploading CSV"
 
-Net::SCP.start(upload_ip, upload_user, port: upload_port) do |ssh|
+Net::SCP.start(upload_ip, upload_user, port: upload_port, keys: [key_path]) do |ssh|
   ssh.upload! "./data/climber_count.csv", upload_path
 end
 
