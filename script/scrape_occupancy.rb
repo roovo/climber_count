@@ -9,12 +9,12 @@ require 'nokogiri'
 require 'net/ssh'
 require 'net/scp'
 
-logger            = Logger.new(STDOUT)
-logger.level      = Logger::INFO
+logger          = Logger.new(STDOUT)
+logger.level    = Logger::INFO
 
-time = Time.now
+time            = Time.now
 
-buffer          = 30 * 60             #  seconds
+buffer          = 15 * 60             #  seconds
 
 @weekend_open   = (Time.parse "10:00") - buffer
 @weekend_close  = (Time.parse "18:00") + buffer
