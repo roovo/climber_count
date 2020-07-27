@@ -14,12 +14,20 @@ logger.level      = Logger::INFO
 
 time = Time.now
 
+buffer          = 30 * 60             #  seconds
+
+@weekend_open   = (Time.parse "10:00") - buffer
+@weekend_close  = (Time.parse "18:00") + buffer
+
+@weekday_open   = (Time.parse "12:00") - buffer
+@weekday_close  = (Time.parse "21:30") + buffer
+
 def during_weekend_opening(time)
   if time.saturday? || time.sunday?
-    if (time.hour < 10 && time.min < 30) || (time.hour >= 18 && time.min > 30)
-      false
-    else
+    if (time >= @weekend_open) && (time <= @weekend_close)
       true
+    else
+      false
     end
   else
     false
@@ -30,10 +38,10 @@ def during_weekday_opening(time)
   if time.saturday? || time.sunday?
     false
   else
-    if (time.hour < 12 && time.min < 30) || (time.hour >= 22 && time.min > 0)
-      false
-    else
+    if (time >= @weekday_open) && (time <= @weekday_close)
       true
+    else
+      false
     end
   end
 end
