@@ -12,41 +12,45 @@ require 'net/scp'
 logger          = Logger.new(STDOUT)
 logger.level    = Logger::INFO
 
-time            = Time.now
+@time            = Time.now
 
 buffer          = 15 * 60             #  seconds
 
-@weekend_open   = (Time.parse "10:00") - buffer
-@weekend_close  = (Time.parse "18:00") + buffer
+WEEKEND_OPEN   = (Time.parse "10:00") - buffer
+WEEKEND_CLOSE  = (Time.parse "18:00") + buffer
 
-@weekday_open   = (Time.parse "12:00") - buffer
-@weekday_close  = (Time.parse "21:30") + buffer
+WEEKDAY_OPEN   = (Time.parse "12:00") - buffer
+WEEKDAY_CLOSE  = (Time.parse "21:30") + buffer
 
-def during_weekend_opening(time)
-  if time.saturday? || time.sunday?
-    if (time >= @weekend_open) && (time <= @weekend_close)
+def is_on_the_hour?
+  @time.min.zero?
+end
+
+def during_weekend_opening
+  if @time.saturday? || @time.sunday?
+    if (@time >= WEEKEND_OPEN) && (@time <= WEEKEND_CLOSE)
       true
     else
-      false
+      is_on_the_hour?
     end
   else
-    false
+    is_on_the_hour?
   end
 end
 
-def during_weekday_opening(time)
-  if time.saturday? || time.sunday?
-    false
+def during_weekday_opening
+  if @time.saturday? || @time.sunday?
+    is_on_the_hour?
   else
-    if (time >= @weekday_open) && (time <= @weekday_close)
+    if (@time >= WEEKDAY_OPEN) && (@time <= WEEKDAY_CLOSE)
       true
     else
-      false
+      is_on_the_hour?
     end
   end
 end
 
-if during_weekend_opening(time) || during_weekday_opening(time)
+if during_weekend_opening || during_weekday_opening
   data_uri    = ENV.fetch("DATA_URI")
   upload_ip   = ENV.fetch("UPLOAD_IP")
   upload_port = ENV.fetch("UPLOAD_PORT")
